@@ -53,15 +53,41 @@ export class ElementInteractionDirective {
   readonly locked = computed<boolean>(() => isLocked(this.element()));
   readonly hidden = computed<boolean>(() => isHidden(this.element()));
 
+  /** True when this element is currently in inline-edit mode. */
+  readonly editing = computed<boolean>(() => {
+    const p = this.path();
+    return !!p && !!this.store && this.store.isEditing(p);
+  });
+
   protected onClick(event: MouseEvent): void {
     const p = this.path();
     if (!p || !this.store || this.locked()) return;
+    // Don't re-select / toggle when the element is being inline-edited —
+    // clicks belong to the contenteditable surface.
+    if (this.editing()) {
+      event.stopPropagation();
+      return;
+    }
     event.stopPropagation();
     if (event.shiftKey || event.metaKey || event.ctrlKey) {
       this.store.toggleSelection(p);
-    } else {
-      this.store.select(p);
+      return;
     }
+    // Click on an already-selected text element (without any drag occurring)
+    // enters inline-edit mode. Matches the gesture users expect from Figma /
+    // Sketch / Illustrator.
+    const wasSelectedBefore = this.pointerDownWasSelected;
+    if (wasSelectedBefore && this.isTextKind()) {
+      this.store.startEditing(p);
+      return;
+    }
+    this.store.select(p);
+  }
+
+  /** Whether `element()` is one of the kinds that supports inline text edit. */
+  private isTextKind(): boolean {
+    const k = this.element().kind;
+    return k === 'staticText' || k === 'textField';
   }
 
   protected onContextMenu(event: MouseEvent): void {
@@ -83,10 +109,17 @@ export class ElementInteractionDirective {
     target: HTMLElement;
   } | null = null;
 
+  /** Whether this element was already in the selection when pointerdown fired.
+   *  Read in `onClick` to decide "select" vs "enter inline-edit". Cleared on
+   *  pointerup whether a drag occurred or not. */
+  private pointerDownWasSelected = false;
+
   protected onPointerDown(event: PointerEvent): void {
     if (event.button !== 0) return;
     const p = this.path();
     if (!p || !this.store || this.locked()) return;
+    // Inline edit owns pointer events while active.
+    if (this.editing()) return;
     // Only top-level moves; child elements inside frames need their own logic.
     if (event.target !== event.currentTarget) return;
 
@@ -100,6 +133,7 @@ export class ElementInteractionDirective {
     // replace selection with just it. Otherwise keep the multi-selection so
     // the upcoming drag affects every selected element.
     const wasMember = this.store.isSelected(p);
+    this.pointerDownWasSelected = wasMember;
     if (!wasMember) this.store.select(p);
 
     const el = this.element();
@@ -146,6 +180,7 @@ export class ElementInteractionDirective {
     if (!state.active && Math.hypot(dx, dy) < 3) return;
     if (!state.active) {
       state.active = true;
+      this.pointerDownWasSelected = false;
       this.store.beginTransaction();
     }
     const items = state.items;

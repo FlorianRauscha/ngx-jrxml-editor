@@ -172,6 +172,9 @@ export class JasperBandComponent {
     if (sel.indices.length !== 1) return null;
     // Don't render band-level handles when the selection targets a table cell child.
     if (sel.tableCell) return null;
+    // Hide handles while the element is being inline-edited so they don't
+    // intercept clicks meant for the contenteditable surface.
+    if (this.store.isEditing(sel)) return null;
     const target = this.band().elements[sel.indices[0]!];
     if (!target || target.kind === 'elementGroup') return null;
     return target;

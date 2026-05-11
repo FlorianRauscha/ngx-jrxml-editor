@@ -48,6 +48,7 @@ export class EditorStore {
   private readonly _zoom = signal<number>(1);
   private readonly _contextMenu = signal<{ x: number; y: number } | null>(null);
   private readonly _dragGuides = signal<DragGuides | null>(null);
+  private readonly _editingPath = signal<ElementPath | null>(null);
   private inTransaction = false;
 
   readonly report = this._report.asReadonly();
@@ -69,9 +70,27 @@ export class EditorStore {
   readonly zoom = this._zoom.asReadonly();
   readonly contextMenu = this._contextMenu.asReadonly();
   readonly dragGuides = this._dragGuides.asReadonly();
+  readonly editingPath = this._editingPath.asReadonly();
 
   setDragGuides(guides: DragGuides | null): void {
     this._dragGuides.set(guides);
+  }
+
+  /** Enter inline-edit mode for the element at `path`. The path is also
+   *  selected so the inspector/toolbar stay in sync. */
+  startEditing(path: ElementPath): void {
+    this.select(path);
+    this._editingPath.set(path);
+  }
+
+  /** Leave inline-edit mode if currently active. */
+  stopEditing(): void {
+    if (this._editingPath() !== null) this._editingPath.set(null);
+  }
+
+  isEditing(path: ElementPath): boolean {
+    const cur = this._editingPath();
+    return !!cur && pathsEqual(cur, path);
   }
 
   /** Sibling context for the primary selection — drives z-order menu state. */
@@ -135,6 +154,7 @@ export class EditorStore {
     if (report === null) this._selections.set([]);
     this._past.set([]);
     this._future.set([]);
+    this._editingPath.set(null);
   }
 
   /** Replace the current selection with `path` (or clear it when null). */
@@ -142,6 +162,8 @@ export class EditorStore {
     const next = path ? [path] : [];
     if (sameSelections(next, this._selections())) return;
     this._selections.set(next);
+    const editing = this._editingPath();
+    if (editing && (!path || !pathsEqual(editing, path))) this._editingPath.set(null);
   }
 
   /** Replace the selection with the given paths. Duplicates are dropped. */
@@ -208,6 +230,7 @@ export class EditorStore {
     this._future.set([current, ...this._future()]);
     this._report.set(prev.report);
     this._selections.set(prev.selections);
+    this._editingPath.set(null);
   }
 
   redo(): void {
@@ -222,6 +245,7 @@ export class EditorStore {
     this._past.set([...this._past(), current]);
     this._report.set(next.report);
     this._selections.set(next.selections);
+    this._editingPath.set(null);
   }
 
   /** Mutate the primary (first) selected element. */
