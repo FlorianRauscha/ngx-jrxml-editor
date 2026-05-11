@@ -4,6 +4,8 @@ A web-based JRXML template editor for **JasperReports 7+**, packaged as an Angul
 
 Build PDF report templates visually in the browser, save them as `.jrxml`, and feed them to your existing JasperReports server / engine for rendering.
 
+![ngx-jrxml-editor](./jrxml-editor.png)
+
 ## Status
 
 **v0.1 — usable for authoring most JR templates.** See [CHANGELOG.md](./CHANGELOG.md) for shipped features and the [library README](./projects/ngx-jrxml-editor/README.md) for the public API.
