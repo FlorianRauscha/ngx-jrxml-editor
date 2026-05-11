@@ -6,7 +6,7 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { JasperIconComponent } from 'ngx-jrxml-editor';
+import { JasperIconComponent } from '@florianrauscha/ngx-jrxml-editor';
 
 import { WorkspaceService } from './workspace.service';
 

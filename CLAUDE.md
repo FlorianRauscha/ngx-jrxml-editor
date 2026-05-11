@@ -6,14 +6,14 @@ Project context for future Claude sessions. Keep concise; update when architectu
 
 A web-based JRXML template editor for **JasperReports 7+**, packaged as an Angular 19+ library. The editor produces JR 7 compact JRXML on save and accepts both compact and legacy form on load. Live PDF preview is **out of scope** — the editor only edits templates; rendering is the host application's job.
 
-Public package name: `ngx-jrxml-editor`. Repo layout is an Angular workspace with one publishable library + one demo host app.
+Public package name: `@florianrauscha/ngx-jrxml-editor` (the Angular workspace project name remains `ngx-jrxml-editor` internally). Repo layout is an Angular workspace with one publishable library + one demo host app.
 
 ## Repo layout
 
 ```
 ngx-jrxml-editor/
 ├── projects/
-│   ├── ngx-jrxml-editor/          # the publishable library (npm: ngx-jrxml-editor)
+│   ├── ngx-jrxml-editor/          # the publishable library (npm: @florianrauscha/ngx-jrxml-editor)
 │   │   └── src/lib/
 │   │       ├── model/             # pure-TS JRXML model types (no Angular)
 │   │       ├── jrxml/             # parser + serializer (no Angular)

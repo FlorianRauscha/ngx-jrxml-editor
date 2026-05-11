@@ -13,12 +13,12 @@ Build PDF report templates visually in the browser, save them as `.jrxml`, and f
 ## Quick start (consumer)
 
 ```bash
-npm install ngx-jrxml-editor
+npm install @florianrauscha/ngx-jrxml-editor
 ```
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { JasperEditorComponent } from 'ngx-jrxml-editor';
+import { JasperEditorComponent } from '@florianrauscha/ngx-jrxml-editor';
 
 @Component({
   standalone: true,

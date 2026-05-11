@@ -4,7 +4,7 @@ import {
   type WorkspaceFileKind,
   type WorkspaceFileRef,
   type WorkspaceFilesProvider,
-} from 'ngx-jrxml-editor';
+} from '@florianrauscha/ngx-jrxml-editor';
 
 import { WorkspaceService } from './workspace.service';
 

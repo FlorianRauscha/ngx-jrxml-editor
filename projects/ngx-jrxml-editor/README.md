@@ -1,4 +1,4 @@
-# ngx-jrxml-editor
+# @florianrauscha/ngx-jrxml-editor
 
 A web-based JRXML template editor for **JasperReports 7+**, packaged as an Angular 19+ library.
 
@@ -7,7 +7,7 @@ The library produces standards-compliant `.jrxml` XML you can hand to any Jasper
 ## Install
 
 ```bash
-npm install ngx-jrxml-editor
+npm install @florianrauscha/ngx-jrxml-editor
 ```
 
 Peer requirements: `@angular/common` and `@angular/core` `^19.2`.
@@ -16,7 +16,7 @@ Peer requirements: `@angular/common` and `@angular/core` `^19.2`.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { JasperEditorComponent } from 'ngx-jrxml-editor';
+import { JasperEditorComponent } from '@florianrauscha/ngx-jrxml-editor';
 
 @Component({
   selector: 'app-root',

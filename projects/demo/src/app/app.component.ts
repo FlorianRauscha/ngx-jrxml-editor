@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { JasperEditorComponent } from 'ngx-jrxml-editor';
+import { JasperEditorComponent } from '@florianrauscha/ngx-jrxml-editor';
 
 import { SAMPLE_SIMPLE, SAMPLE_TABLE } from './samples';
 import { WorkspacePaneComponent } from './workspace/workspace-pane.component';

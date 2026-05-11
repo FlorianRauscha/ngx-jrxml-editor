@@ -8,7 +8,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "ngx-jrxml-editor": [
+      "@florianrauscha/ngx-jrxml-editor": [
         "./dist/ngx-jrxml-editor"
       ]
     },

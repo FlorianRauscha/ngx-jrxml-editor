@@ -1,26 +1,37 @@
 {
-  "name": "ngx-jrxml-editor",
+  "name": "@florianrauscha/ngx-jrxml-editor",
   "version": "0.1.0",
   "description": "Web-based JRXML template editor for JasperReports 7+, packaged as an Angular 19+ library.",
   "keywords": [
     "jasperreports",
+    "jasper-reports",
     "jrxml",
     "report-editor",
     "angular",
     "angular19",
     "pdf",
     "wysiwyg",
-    "template-editor"
+    "template-editor",
+    "typescript",
+    "signals",
+    "standalone-components"
   ],
+  "author": "Florian Rauscha",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/FlorianRauscha/ngx-jrxml-editor.git",
+    "url": "git+https://github.com/FlorianRauscha/ngx-jrxml-editor.git",
     "directory": "projects/ngx-jrxml-editor"
   },
   "homepage": "https://github.com/FlorianRauscha/ngx-jrxml-editor#readme",
   "bugs": {
     "url": "https://github.com/FlorianRauscha/ngx-jrxml-editor/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "peerDependencies": {
     "@angular/common": "^19.2.0",
